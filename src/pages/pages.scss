@@ -1,0 +1,29 @@
+.page__main {
+    text-align: center;
+    padding:1rem;
+    max-width: 1200px;
+    margin: auto;
+    margin-top:2rem;
+    color:#828080;
+
+    h1 {
+        font-weight: normal;
+        letter-spacing: 5px;
+    }
+}
+
+.page__products {
+    @media only screen and (min-width:400px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    @media only screen and (min-width:700px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+.page__width {
+    max-width: 1200px;
+    margin:auto;
+}
