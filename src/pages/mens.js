@@ -11,6 +11,7 @@ const Mens = props => {
       allShopifyProduct(filter: { productType: { eq: "Mens" } }) {
         edges {
           node {
+            handle
             title
             images {
               localFile {

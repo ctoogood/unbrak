@@ -6,9 +6,14 @@ import "./components.scss"
 const LatestProducts = props => {
   const data = useStaticQuery(graphql`
     query {
-      allShopifyProduct(filter: { productType: { eq: "Mens" } }, limit: 3) {
+      allShopifyProduct(
+        filter: { productType: { eq: "Mens" } }
+        limit: 3
+        sort: { fields: publishedAt, order: DESC }
+      ) {
         edges {
           node {
+            handle
             title
             images {
               localFile {

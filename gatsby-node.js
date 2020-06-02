@@ -1,7 +1,29 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/node-apis/
- */
+exports.createPages = async ({ graphql, actions }) => {
+  const { createPage } = actions
+  const result = await graphql(`
+    {
+      products: allShopifyProduct(filter: { productType: { eq: "Mens" } }) {
+        edges {
+          node {
+            handle
+            productType
+          }
+        }
+      }
+    }
+  `)
+  if (result.errors) {
+    throw result.errors
+  }
+  // Get all the posts in an array
+  const products = result.data.products.edges || []
 
-// You can delete this file if you're not using it
+  products.forEach((edge, index) => {
+    const path = `/${edge.node.productType.toLowerCase()}/${edge.node.handle}`
+    createPage({
+      path,
+      component: require.resolve("./src/templates/productView.js"),
+      context: { handle: edge.node.handle },
+    })
+  })
+}

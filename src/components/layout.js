@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
     <>
       <Header siteTitle={data.site.siteMetadata.title} />
       <div>
-        <main style={{ minHeight: 1000 }}>{children}</main>
+        <main>{children}</main>
         <Footer />
       </div>
     </>

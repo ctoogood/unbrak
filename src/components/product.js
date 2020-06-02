@@ -5,7 +5,7 @@ import "./components.scss"
 
 const Product = ({ product }) => {
   return (
-    <Link to={`/mens/${product.node.title}`} className="product__main link">
+    <Link to={`/mens/${product.node.handle}`} className="product__main link">
       <section>
         <Img
           className="product__image"

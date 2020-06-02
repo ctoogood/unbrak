@@ -73,8 +73,8 @@ header {
     border:none;
     background:none;
     outline:none;
-    position:fixed;
-    top:15px;
+    position: absolute;
+    top:1px;
     padding:.5rem;
     cursor:pointer;
     z-index: 6;
@@ -262,3 +262,8 @@ header {
         width:5rem;
     }
 }
+
+// PRODUCT VIEW
+
+
+
