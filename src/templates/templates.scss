@@ -45,6 +45,17 @@
     }
 }
 
+.productView__imageArrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 3rem;
+    font-weight: 900;
+    background-color: lightgrey;
+    border-radius: 50%;
+    color:white;
+}
+
 .productView__desc {
     @media only screen and (min-width:900px) {
         padding: 2rem;
@@ -72,4 +83,16 @@
         right: 0;
     }
 
+}
+
+.productView__dropdown {
+    h4 {
+        margin-bottom:0.5rem;
+        font-weight: normal;
+    }
+    margin:1rem;
+}
+
+.productView__variants {
+    margin-bottom: 3rem;
 }
