@@ -1,0 +1,28 @@
+.thumbnail__button {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+.thumbnail__image {
+    object-fit: contain;
+    height:100%;
+    width: 100%;
+}
+
+.dropdown__main {
+    margin-bottom: 0.5rem;
+
+    label {
+        margin-right: 0.5rem;
+    }
+
+    select {
+        font-style: italic;
+        border-radius: 3px;
+        padding:5px;
+    }
+}

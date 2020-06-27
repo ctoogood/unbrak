@@ -71,7 +71,7 @@ const Header = () => {
         <Link
           className="header__cart link"
           activeClassName="header__active"
-          to="/equipment"
+          to="/cart"
         >
           <img src={cart} alt="shopping cart icon" />
         </Link>

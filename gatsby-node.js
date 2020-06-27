@@ -5,6 +5,7 @@ exports.createPages = async ({ graphql, actions }) => {
       products: allShopifyProduct(filter: { productType: { eq: "Mens" } }) {
         edges {
           node {
+            id
             handle
             productType
           }
@@ -21,9 +22,14 @@ exports.createPages = async ({ graphql, actions }) => {
   products.forEach((edge, index) => {
     const path = `/${edge.node.productType.toLowerCase()}/${edge.node.handle}`
     createPage({
+      // path,
+      // component: require.resolve("./src/templates/productView.js"),
+      // context: { handle: edge.node.handle },
       path,
-      component: require.resolve("./src/templates/productView.js"),
-      context: { handle: edge.node.handle },
+      component: require.resolve(`./src/templates/product.js`),
+      context: {
+        productId: edge.node.id,
+      },
     })
   })
 }

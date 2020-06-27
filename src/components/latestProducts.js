@@ -13,6 +13,7 @@ const LatestProducts = props => {
       ) {
         edges {
           node {
+            id
             handle
             title
             images {
