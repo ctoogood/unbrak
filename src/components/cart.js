@@ -1,14 +1,14 @@
-import React from "react"
+import React, { useState, useEffect, useContext } from "react"
 import Img from "gatsby-image"
-import Layout from "../components/layout"
-import SEO from "../components/seo"
 import { useStaticQuery, graphql, Link } from "gatsby"
 import {
   useCartItems,
   useCartTotals,
   useRemoveItemFromCart,
   useCheckout,
+  StoreContext,
 } from "../context/CartContext.js"
+import "./components.scss"
 
 const CartPage = () => {
   const {
@@ -46,6 +46,10 @@ const CartPage = () => {
   const removeFromCart = useRemoveItemFromCart()
   const checkout = useCheckout()
 
+  const appContext = useContext(StoreContext)
+
+  const { cart, setCart } = appContext
+
   const betterProductHandles = products.map(({ handle, variants }) => {
     const newVariants = variants.map(variant => variant.shopifyId)
     return {
@@ -68,30 +72,36 @@ const CartPage = () => {
     })
 
     if (selectedVariant) {
-      return selectedVariant.image.localFile.childImageSharp.fluid
+      return selectedVariant.image.localFile.childImageSharp.fluid.src
     }
     return null
   }
 
+  const cartOpen = cart ? "cart__open" : "cart__close"
+
+  const closeCart = () => {
+    setCart(false)
+  }
+
   const LineItem = ({ item }) => (
-    <div>
-      <div>
+    <div className="cart__product">
+      <div className="cart__productImage">
         <div>
-          <Img fluid={getImageFluidForVariant(item.variant.id)} />
+          <img src={getImageFluidForVariant(item.variant.id)} />
         </div>
       </div>
-      <div>
+      <div className="cart__productTitle">
         <Link to={`/product/${getHandleForVariant(item.variant.id)}`}>
           {item.title}
         </Link>
-        <ul>
+        <ul className="cart__productVariant">
           {item.variant.selectedOptions.map(({ name, value }) => (
             <li key={name}>
               <strong>{name}: </strong>
               {value}
             </li>
           ))}
-          <li key="quantity">
+          <li className="cart__productQuantity" key="quantity">
             <strong>Quantity: </strong>
             {item.quantity}
           </li>
@@ -100,24 +110,27 @@ const CartPage = () => {
       <button variant="link" onClick={() => removeFromCart(item.id)}>
         Delete
       </button>
-      <p>${Number(item.variant.priceV2.amount).toFixed(2)}</p>
+      <p>£{Number(item.variant.priceV2.amount).toFixed(2)}</p>
     </div>
   )
 
   const emptyCart = (
-    <Layout>
-      <SEO title="Cart" />
-      <h1>Cart</h1>
-      <p>Your shopping cart is empty.</p>
-    </Layout>
+    <div className={`cart cart__emptyCart ${cartOpen} `}>
+      <button onClick={closeCart} className="cart__closeButton">
+        X
+      </button>
+      <p>Your cart is empty.</p>
+      <button className="cart__continueShopping">Continue Shopping</button>
+    </div>
   )
 
   return lineItems.length < 1 ? (
     emptyCart
   ) : (
-    <Layout>
-      <SEO title="Cart" />
-      <h1>Cart</h1>
+    <div className={`cart cart__main ${cartOpen}`}>
+      <button onClick={closeCart} className="cart__closeButton">
+        X
+      </button>
       {lineItems.map(item => (
         <React.Fragment key={item.id}>
           <LineItem key={item.id} item={item} />
@@ -126,27 +139,13 @@ const CartPage = () => {
       ))}
       <div>
         <section>
-          <h3>Cart Summary</h3>
           <hr />
-
-          <div>
-            <p>Subtotal:</p>
-            <p>{total}</p>
-            <p>Shipping:</p>
-            <p> - </p>
-            <p>Tax: </p>
-            <p>{tax}</p>
-          </div>
-
-          <hr />
-          <div>
-            <p variant="bold">Estimated Total:</p>
-            <p variant="bold">{total}</p>
-          </div>
-          <button onClick={checkout}>Checkout</button>
+          <button className="cart__continueShopping" onClick={checkout}>
+            Checkout - {total}
+          </button>
         </section>
       </div>
-    </Layout>
+    </div>
   )
 }
 

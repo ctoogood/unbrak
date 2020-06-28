@@ -83,6 +83,7 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
             <img
               className="productView__productImage"
               src={variant.image.localFile.childImageSharp.fluid.src}
+              alt="Product"
             />
           </div>
         </div>
@@ -112,8 +113,8 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
             </div>
             <h2>£{product.priceRange.maxVariantPrice.amount}</h2>
           </div>
-          <div className="productView__quantity">
-            <label>Quantity</label>
+          <form className="productView__quantity">
+            <label htmlFor="filled-number">Quantity</label>
             <input
               id="filled-number"
               label="Quantity"
@@ -122,7 +123,7 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
               onChange={handleQuantity}
               style={{ width: "50px" }}
             />
-          </div>
+          </form>
 
           <button className="productView__cartButton" onClick={handleAddToCart}>
             Add to Cart

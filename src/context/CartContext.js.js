@@ -69,11 +69,15 @@ const StoreContextProvider = ({ children }) => {
     initializeCheckout()
   }, [])
 
+  const [cart, setCart] = useState(true)
+
   return (
     <StoreContext.Provider
       value={{
         store,
         setStore,
+        setCart,
+        cart,
       }}
     >
       {children}
@@ -195,4 +199,5 @@ export {
   useCartTotals,
   useRemoveItemFromCart,
   useCheckout,
+  StoreContext,
 }
