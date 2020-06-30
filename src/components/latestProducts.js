@@ -14,6 +14,7 @@ const LatestProducts = props => {
         edges {
           node {
             id
+            productType
             handle
             title
             images {
