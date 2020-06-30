@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useEffect, useMemo, useRef } from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Thumbnail from "./components/thumbnail"
 import OptionPicker from "./components/optionPicker"
 import { graphql } from "gatsby"
 import { prepareVariantsWithOptions, prepareVariantsImages } from "./utilities"
+import { useOnClickOutside } from "../hooks/hooks"
 import { useAddItemToCart } from "../context/CartContext.js"
 import logo from "../images/logo1notext.png"
 
@@ -36,9 +37,10 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
   const [size, setSize] = useState(variant.size)
   const [addedToCartMessage, setAddedToCartMessage] = useState(null)
 
-  useEffect(() => {
-    console.log(images)
+  const node = useRef()
+  useOnClickOutside(node, () => setAddedToCartMessage(null))
 
+  useEffect(() => {
     const newVariant = variants.find(variant => {
       return variant.size === size && variant.color === color
     })
@@ -58,7 +60,7 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
     ) : null
 
   function handleAddToCart() {
-    addItemToCart(variant.shopifyId, 1)
+    addItemToCart(variant.shopifyId, quantity)
     setAddedToCartMessage("🛒 Added to your cart!")
   }
 
@@ -66,11 +68,13 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
     setQuantity(e.target.value)
   }
 
+  const price = product.priceRange.maxVariantPrice.amount
+
   return (
     <Layout>
       <SEO title={product.title} />
       {addedToCartMessage ? (
-        <div className="productView__added">
+        <div ref={node} className="productView__added">
           {addedToCartMessage}
           <button onClick={() => setAddedToCartMessage(null)}>X</button>
         </div>
@@ -103,26 +107,31 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
                   onChange={event => setColor(event.target.value)}
                 />
               ) : null}
-              <OptionPicker
-                key="Size"
-                name="Size"
-                options={sizes.values}
-                selected={size}
-                onChange={event => setSize(event.target.value)}
-              />
+              {variant.size ? (
+                <OptionPicker
+                  key="Size"
+                  name="Size"
+                  options={sizes.values}
+                  selected={size}
+                  onChange={event => setSize(event.target.value)}
+                />
+              ) : null}
             </div>
-            <h2>£{product.priceRange.maxVariantPrice.amount}</h2>
+            <h2>£{parseFloat(price)}</h2>
           </div>
           <form className="productView__quantity">
-            <label htmlFor="filled-number">Quantity</label>
-            <input
-              id="filled-number"
-              label="Quantity"
-              type="number"
-              defaultValue="1"
-              onChange={handleQuantity}
-              style={{ width: "50px" }}
-            />
+            <label htmlFor="filled-number">
+              Quantity
+              <input
+                id="filled-number"
+                label="Quantity"
+                type="number"
+                min="1"
+                defaultValue="1"
+                onChange={handleQuantity}
+                style={{ width: "50px" }}
+              />
+            </label>
           </form>
 
           <button className="productView__cartButton" onClick={handleAddToCart}>
@@ -162,7 +171,7 @@ export const ProductPageQuery = graphql`
           localFile {
             childImageSharp {
               fluid(maxWidth: 446) {
-                ...GatsbyImageSharpFluid_withWebp
+                src
               }
             }
           }

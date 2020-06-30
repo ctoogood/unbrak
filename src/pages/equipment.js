@@ -5,10 +5,10 @@ import SEO from "../components/seo"
 import Product from "../components/product"
 import "./pages.scss"
 
-const Mens = props => {
+const Equipment = props => {
   const data = useStaticQuery(graphql`
     query {
-      allShopifyProduct(filter: { productType: { eq: "Mens" } }) {
+      allShopifyProduct(filter: { productType: { eq: "Equipment" } }) {
         edges {
           node {
             id
@@ -36,10 +36,10 @@ const Mens = props => {
   `)
   return (
     <Layout path={props.location}>
-      <SEO title="Mens" />
+      <SEO title="Equipment" />
       <section className="page__main">
         <section className="page__title">
-          <h1>Mens Clothing</h1>
+          <h1>Equipment</h1>
         </section>
         <section className="page__products">
           {data.allShopifyProduct.edges.map(product => (
@@ -51,4 +51,4 @@ const Mens = props => {
   )
 }
 
-export default Mens
+export default Equipment

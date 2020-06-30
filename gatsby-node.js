@@ -2,7 +2,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
   const result = await graphql(`
     {
-      products: allShopifyProduct(filter: { productType: { eq: "Mens" } }) {
+      products: allShopifyProduct {
         edges {
           node {
             id

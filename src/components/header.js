@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react"
 import { Link } from "gatsby"
 import unbrak_logo_black from "../images/unbrak_logo_black.png"
 import cartIcon from "../images/shopping-cart.svg"
-import { StoreContext } from "../context/CartContext.js.js"
+import { StoreContext, useCartCount } from "../context/CartContext.js"
 import "./components.scss"
 import CartPage from "./cart"
 
@@ -18,12 +18,13 @@ const Header = () => {
 
   const appContext = useContext(StoreContext)
 
-  const { setCart, cart } = appContext
+  const { setCart } = appContext
 
   const openCart = () => {
     setCart(true)
-    console.log(cart)
   }
+
+  const count = useCartCount()
 
   return (
     <>
@@ -79,13 +80,14 @@ const Header = () => {
             <Link
               className="link"
               activeClassName="header__active"
-              to="/workshops"
+              to="/equipment"
             >
               Equipment
             </Link>
           </section>
           <button onClick={openCart} className="header__cart link">
             <img src={cartIcon} alt="shopping cart icon" />
+            {count ? <p>{`(${count})`}</p> : null}
           </button>
         </section>
       </header>

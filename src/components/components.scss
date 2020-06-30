@@ -71,6 +71,12 @@ header {
         height: 25px;
         margin:0;
     }
+
+    p {
+        display: inline;
+        position: relative;
+        top:-7px;
+    }
 }
 
 .header__menuIcon {
@@ -243,23 +249,35 @@ header {
     padding: 0.5rem;
 }
 
-.cart__main {
-
-}
 
 .cart__product {
     display:flex;
     padding:1rem;
+
+    button {
+        border: 1px solid red;
+        color:red;
+        display: inline-block;
+    }
 }
 
 .cart__productImage {
-    max-width: 50px;
-    width:20%;
+    max-width: 400px;
+    width:50%;
 
     img {
         width:100%;
         object-fit: contain;
     }
+}
+
+.cart__productList {
+    overflow-y: scroll;
+    max-height:80vh;
+}
+
+.cart__productVariant {
+    list-style-type: none;
 }
 
 // HERO IMAGE

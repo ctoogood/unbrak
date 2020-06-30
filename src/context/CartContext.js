@@ -19,7 +19,6 @@ const StoreContext = React.createContext({
 })
 
 function createNewCheckout(store) {
-  console.log(store.checkout)
   return store.checkout.create()
 }
 
@@ -69,7 +68,7 @@ const StoreContextProvider = ({ children }) => {
     initializeCheckout()
   }, [])
 
-  const [cart, setCart] = useState(true)
+  const [cart, setCart] = useState(false)
 
   return (
     <StoreContext.Provider
