@@ -1,5 +1,6 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
+import Img from "gatsby-image"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Product from "../components/product"
@@ -8,6 +9,15 @@ import "./pages.scss"
 const Mens = props => {
   const data = useStaticQuery(graphql`
     query {
+      placeholderImage: file(
+        relativePath: { eq: "tomas-robertson-IDbdxnIYpss-unsplash.jpg" }
+      ) {
+        childImageSharp {
+          fluid(maxWidth: 1600) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
       allShopifyProduct(filter: { productType: { eq: "Mens" } }) {
         edges {
           node {
@@ -39,6 +49,10 @@ const Mens = props => {
       <SEO title="Mens" />
       <section className="page__main">
         <section className="page__title">
+          <Img
+            className="page__titleBackground"
+            fluid={data.placeholderImage.childImageSharp.fluid}
+          />
           <h1>Mens Clothing</h1>
         </section>
         <section className="page__products">
